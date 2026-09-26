@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import {CURRICULUM_SONGS} from './dist/song-library.js';
-import {STORAGE_KEY,parseNotes} from './dist/core.js';
+import {CURRICULUM_SONGS,EXTRA_SONGS,TRACKABLE_SONGS} from './dist/song-library.js';
+import {STORAGE_KEY,parseNotes,points} from './dist/core.js';
 import {NOTES} from './dist/content.js';
 
 const listeners = new Map();
@@ -85,7 +85,7 @@ const saved = () => JSON.parse(stored.get(STORAGE_KEY));
 
 assert.match(app.innerHTML, /ぼうけんマップ/);
 await fireClick({ page: 'songs' });
-assert.equal((app.innerHTML.match(/class="song-level /g) || []).length, 9);
+assert.equal((app.innerHTML.match(/class="song-level /g) || []).length, 10);
 assert.equal((app.innerHTML.match(/class="song-item /g) || []).length, 5);
 assert.match(app.innerHTML, /data-song-level="2" aria-pressed="false" aria-disabled="true"/);
 
@@ -139,7 +139,7 @@ await change({ target: { id: 'unlock-all', checked: true, matches: () => false }
 await fireClick({ page: 'songs' });
 assert.match(app.innerHTML, /data-song-level="8" aria-pressed="false" aria-disabled="false"/);
 
-for (const song of CURRICULUM_SONGS.filter(s=>s.mode==='play')) {
+for (const song of TRACKABLE_SONGS.filter(s=>s.mode==='play')) {
   await fireClick({ songLevel: String(song.songLevel) });
   await fireClick({ song: song.id });
   assert.ok(app.innerHTML.includes(song.scope), song.id);
@@ -195,7 +195,7 @@ await change({ target: { id: 'unlock-all', checked: false, matches: () => false 
 await fireClick({ page: 'songs' });
 assert.match(app.innerHTML, /data-song-level="1" aria-pressed="true"/);
 
-console.log('PASS: simulated DOM: 21 scores / steps and persistence / partial-score rating guard / unlock and points / fit and manual zoom / pickup audio scheduling and stop');
+console.log('PASS: simulated DOM: 26 scores / steps and persistence / partial-score rating guard / unlock and points / fit and manual zoom / pickup audio scheduling and stop');
 await fireClick({page:'guide'});await change({target:{id:'unlock-all',checked:true,matches:()=>false}});await fireClick({page:'songs'});
 await fireClick({songLevel:'7'});await fireClick({song:'curriculum-31'});
 await fireChange('duet-part','2');assert.match(app.innerHTML,/第2パート：長い音の伴奏/);
@@ -210,3 +210,39 @@ await fireClick({songLevel:'6'});await fireClick({song:'curriculum-29'});assert.
 await fireClick({page:'fingers'});await fireClick({pickNote:'C#5'});assert.match(liveFingering.innerHTML,/小穴の大きい方だけ閉じる/);
 await fireClick({pickNote:'C#7'});assert.match(liveFingering.innerHTML,/資料により裏穴/);
 console.log('PASS: duet selection / two-voice scheduling / partial duet / flats / paired holes / high-note caveat');
+
+// Extra songs remain available with progression enabled and persist like scored songs.
+await fireClick({page:'guide'});
+await change({target:{id:'unlock-all',checked:false,matches:()=>false}});
+await fireClick({page:'songs'});
+await fireClick({songLevel:'-1'});
+assert.equal((app.innerHTML.match(/class="song-item /g)||[]).length,5);
+for(const song of EXTRA_SONGS) assert.ok(app.innerHTML.includes(song.title));
+assert.match(app.innerHTML,/data-song-level="-1" aria-pressed="true"/);
+assert.doesNotMatch(app.innerHTML,/LEVEL -1|NaN|undefined/);
+const beforeExtra=points(saved());
+const beforeLessons=JSON.stringify(saved().records);
+await fireClick({rateSong:'2'});
+assert.equal(saved().songRecords['curriculum-41'],undefined);
+for(let i=0;i<6;i++) await change({target:{dataset:{songStep:String(i)},checked:true}});
+await fireChange('chunk-beats','2');
+await fireClick({rateSong:'2'});
+assert.equal(saved().songRecords['curriculum-41'],undefined);
+await fireChange('segment','all');
+await fireClick({rateSong:'2'});
+assert.equal(points(saved()),beforeExtra+10);
+await fireClick({rateSong:'3'});
+await fireClick({rateSong:'3'});
+assert.equal(points(saved()),beforeExtra+15);
+assert.equal(JSON.stringify(saved().records),beforeLessons);
+assert.deepEqual(saved().songSteps['curriculum-41'],Array(6).fill(true));
+await fireClick({page:'stamps'});
+assert.match(app.innerHTML,/data-history-song="curriculum-41">かたつむり/);
+await fireClick({historySong:'curriculum-41'});
+assert.match(app.innerHTML,/data-song-level="-1" aria-pressed="true"/);
+assert.match(app.innerHTML,/data-song-step="0" checked/);
+await fireClick({action:'score-fit'});
+assert.ok(scoreSurface.style['--score-zoom']*scoreSurface.scrollHeight<=472);
+await fireClick({action:'score-reset'});
+assert.equal(scoreOutput.value,'100%');
+console.log('PASS: extra collection / six-step and full-score guards / stamps and history / points cap / saved progress / score zoom');

@@ -109,3 +109,13 @@ export const CURRICULUM_SONGS = [
   song("39", 8, "旅立ちの日に", { kind: "6年教科書・歌集候補", grade: "6年生〜", world: 11, source: "教育芸術社『小学生の音楽6』66ページ", sourceUrl: KYOUGEI, bookPage: "6年 66ページ", requiredNotes: "広い音域と半音を楽譜で確認", goal: "曲全体の構成を捉え、思いを演奏に表す" }),
   song("40", 8, "勇気100%", { kind: "歌集の定番曲・発展曲", grade: "6年生〜発展", world: 11, source: "『みんなのうた』（提供された目次）目次掲載", bookPage: "歌集でページを確認", requiredNotes: "速い動き・半音・高音を楽譜で確認", goal: "正確さを保ちながら、元気な曲想をステージで届ける" }),
 ];
+
+// 既存40候補のID・解放条件を変えず、追加曲はいつでも選べる別コレクションにする。
+export const EXTRA_SONGS = [
+  song("41", -1, "かたつむり", {world:4, source:"1911年の文部省唱歌／原旋律を独自記譜"}),
+  song("42", -1, "雪", {world:3, source:"1911年の文部省唱歌／原旋律を独自記譜"}),
+  song("43", -1, "もみじ", {world:5, source:"岡野貞一作曲／原旋律を独自記譜"}),
+  song("44", -1, "ふるさと", {world:5, source:"岡野貞一作曲／原旋律を独自記譜"}),
+  song("45", -1, "春が来た", {world:6, source:"岡野貞一作曲／原旋律を独自記譜"}),
+].map(s=>({...s,collection:"季節のうた",kind:"追加の唱歌"}));
+export const TRACKABLE_SONGS = [...CURRICULUM_SONGS, ...EXTRA_SONGS];

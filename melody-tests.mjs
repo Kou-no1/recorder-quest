@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
-import {CURRICULUM_SONGS} from './dist/song-library.js';
+import {CURRICULUM_SONGS,TRACKABLE_SONGS} from './dist/song-library.js';
 import {parseNotes,validateBackup} from './dist/core.js';
 import {NOTES,LESSONS} from './dist/content.js';
 import {measuresFor,sliceBeats,practiceWindow,fitScale} from './dist/score-utils.js';
-const song=id=>CURRICULUM_SONGS.find(s=>s.id==='curriculum-'+id);
+const song=id=>TRACKABLE_SONGS.find(s=>s.id==='curriculum-'+id);
 const sum=events=>events.reduce((n,e)=>n+e.beats,0);
 // Independent musical invariants, checked against the adopted notations.
 const expected={
+ '41':[4,0,24,'C5','C6'], '42':[4,0,32,'C5','A5'], '43':[4,0,64,'C5','D6'],
+ '44':[3,0,48,'C5','D6'], '45':[4,0,32,'C5','E6'],
  '05':[4,0,16,'G5','B5'], '06':[4,0,32,'C5','G5'], '07':[3,0,36,'C5','G5'],
  '08':[4,0,64,'C5','G5'], '09':[2,0,24,'C5','G5'], '10':[2,0,28,'C5','C6'],
  '11':[4,0,64,'C5','C6'], '12':[4,0,64,'D5','D6'], '13':[4,0,64,'C5','C6'],
@@ -53,7 +55,7 @@ assert.ok(fitScale(800,480,800,900)*900<=480);
 assert.ok(fitScale(800,140,800,900)*900<=140);
 assert.equal(fitScale(1000,1000,800,900),1);
 assert.equal(LESSONS.find(l=>l.id==='w3-6').meter,3);
-console.log('PASS: 21 score ranges/meters/pickups, melody regressions, all partial windows, ties, exact fit, unverified-score exclusion');
+console.log('PASS: 26 score ranges/meters/pickups, melody regressions, all partial windows, ties, exact fit, unverified-score exclusion');
 const chart=['11111111','1111111p','11111110','111111p0','11111100','11111000','11110111','11110000','11101110','11100000','11011000','11000000','10100000','01100000','00100000','00111110','h1111100','h1111000','h1110101','h1110000','h1110111','h1100000','h1101110','h1101100','h1001100','h1011101','h1011010'];
 assert.equal(Object.keys(NOTES).length,27);
 for(let i=0;i<27;i++){const n=Object.values(NOTES).find(n=>n[1]===72+i);assert.equal(n[2],chart[i],`MIDI ${72+i}`);}
