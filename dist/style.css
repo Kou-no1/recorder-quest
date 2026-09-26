@@ -8,3 +8,14 @@
 @media(max-width:720px){.song-levels{grid-template-columns:repeat(2,minmax(0,1fr))}.song-facts{grid-template-columns:1fr}.score-view-tools .button{flex:1}.score-viewport{max-height:calc(100dvh - 190px)}.book-callout{padding:14px}.song-rating{gap:6px}.song-rating button{padding:9px 4px}.teacher-switch{padding:12px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.sidebar,.topbar,footer,.audio-controls,.song-list,.song-options,.live-fingering,.button,.text-button{display:none!important}.workspace{margin:0}main{padding:0}.song-layout,.score-with-fingers{display:block}.score-grid{grid-template-columns:repeat(3,1fr)}.song-detail{border:none}.measure{break-inside:avoid}body{background:white}}
+
+/* Keep the score's wrapping stable while zooming. */
+.score-source{margin-top:16px}.score-source summary{cursor:pointer;min-height:44px;padding:12px}
+.score-edition{padding:10px 12px;background:#f5f1ff;border-radius:10px;line-height:1.7}
+.song-options select{min-height:44px;max-width:100%}
+.song-rating button:disabled{opacity:.5;cursor:not-allowed}
+.song-steps input{width:22px;height:22px;flex:0 0 22px}
+.accidental{font-size:20px}.rating-help{line-height:1.7}
+@media print{.score-zoom-surface{zoom:1!important;width:100%!important}.score-viewport{overflow:visible;max-height:none}}
+
+.double-holes .hole:first-child{width:15px;height:15px}.double-holes .hole:last-child{width:11px;height:11px}
