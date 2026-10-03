@@ -18,4 +18,63 @@
 .accidental{font-size:20px}.rating-help{line-height:1.7}
 @media print{.score-zoom-surface{zoom:1!important;width:100%!important}.score-viewport{overflow:visible;max-height:none}}
 
+.song-discovery{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:20px}
+.song-discovery>div{display:flex;gap:8px;flex-wrap:wrap}
+.song-discovery label,.practice-settings label{display:flex;align-items:center;gap:8px;font-size:.875rem}
+.song-discovery select,.practice-settings select{min-height:44px;max-width:100%}
+.song-list{max-height:calc(100dvh - 160px);overflow:auto;padding:2px}
+.practice-active .sidebar,.practice-active .topbar,.practice-active footer{display:none}
+.practice-active .workspace{margin-left:0}
+.practice-active main{padding:18px 24px;max-width:none}
+.practice-screen{max-width:1280px;margin:auto}
+.practice-header{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:12px}
+.practice-header h1{font-size:1.65rem;line-height:1.3;margin:0}
+.practice-header p{font-size:.8rem;margin:3px 0 0}
+.practice-settings{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.practice-settings [hidden]{display:none}
+.practice-modes{display:flex;gap:8px}
+.practice-state{display:flex;align-items:center;gap:12px;margin:12px 0}
+.practice-phase{display:inline-block;background:var(--purple-light);color:var(--deep);border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-weight:750;white-space:nowrap}
+.practice-phase[data-phase="student"]{background:#e9f8f1;color:#216c4c;border-color:#a3dec2}
+.practice-phase[data-phase="model"]{background:#fff8d9;color:#725b19;border-color:#f3df92}
+.practice-state .player-status{min-height:0;margin:0}
+.practice-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:20px;align-items:start}
+.practice-sheet{min-width:0;background:white;border:1px solid var(--line);border-radius:16px;padding:14px}
+.practice-page-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.practice-page-nav output{font-size:.875rem;font-weight:700;text-align:center}
+#practice-score .score-grid{grid-template-columns:repeat(2,minmax(0,1fr));margin:0;gap:12px}
+#practice-score .measure{max-height:300px;min-height:210px}
+.practice-duet #practice-score .measure{max-height:165px;min-height:0}
+.practice-part{font-size:.8rem;margin:4px 0}
+.practice-preview{font-size:.8rem;color:var(--muted);margin:10px 0 0}
+.practice-fingers .live-fingering{position:static;margin:0}
+.practice-fingers .fingering{padding:12px}
+.practice-fingers .hole-list{gap:3px}
+.practice-fingers .hole-row{padding:0;min-height:24px;gap:6px;font-size:.75rem;line-height:1.35}
+.practice-fingers .hand-break{margin-top:4px;padding-top:4px}
+.practice-fingers .finger-title{padding-bottom:6px;margin-bottom:6px}
+.practice-fingers .finger-title .eyebrow{font-size:.65rem;margin:0}
+.practice-fingers .finger-title h3{font-size:1.15rem;margin:3px 0}
+.practice-fingers .finger-legend{font-size:.68rem;gap:5px;margin-top:8px;padding-top:6px}
+.practice-fingers .finger-tip{font-size:.7rem;line-height:1.5;margin:6px 0}
+.practice-finger-hint{background:var(--purple-light);color:var(--deep);border-radius:10px;padding:10px 12px;font-size:.8rem;margin-top:8px}
+.practice-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+.practice-controls .button{min-height:48px}
+.practice-footnote{font-size:.75rem;color:var(--muted);margin-top:10px}
+@media(max-width:720px){
+  .song-list{max-height:330px}
+  .practice-active main{padding:14px}
+  .practice-header{align-items:flex-start}
+  .practice-header h1{font-size:1.2rem}
+  .practice-header>.button{padding:8px;font-size:.75rem;min-width:90px}
+  .practice-layout{grid-template-columns:1fr}
+  #practice-score .measure{min-height:0}
+  .practice-page-nav .button{font-size:.75rem;padding:8px}
+  .practice-fingers{display:none}
+  .practice-settings{gap:10px}
+  .practice-modes .button{font-size:.8rem;padding:10px}
+  .practice-controls .play-toggle{flex:1}
+}
+@media print{.song-discovery,.practice-header>.button,.practice-settings,.practice-state,.practice-controls,.practice-fingers,.practice-page-nav,.practice-preview,.practice-footnote{display:none!important}.practice-layout{display:block}.practice-sheet{padding:0;border:0}.song-list{max-height:none}}
+
 .double-holes .hole:first-child{width:15px;height:15px}.double-holes .hole:last-child{width:11px;height:11px}

@@ -25,6 +25,8 @@ jobs:
         run: |
           node verify.mjs
           node melody-tests.mjs
+          node song-discovery-tests.mjs
+          node practice-session-tests.mjs
           node ui-smoke.mjs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

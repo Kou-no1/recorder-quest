@@ -79,6 +79,8 @@ try{
     assert.ok(r.scale>.01,`${label}: collapsed to minimum zoom`);
   };
   await page.goto(url+'#songs');
+  assert.equal(await page.locator('.song-item').count(),18);
+  await click('[data-song-browse="levels"]');
   assert.equal(await page.locator('.song-level').count(),10);
   assert.equal(await page.locator('[data-song-level="2"]').getAttribute('aria-disabled'),'true');
   await click('[data-song-level="-1"]');
@@ -106,6 +108,7 @@ try{
   await download.saveAs(backup);
   assert.equal(points(JSON.parse(await readFile(backup,'utf8'))),15);
   await page.locator('#import-file').setInputFiles(backup);
+  await page.locator('#confirm-dialog').waitFor({state:'visible'});
   assert.equal(await page.locator('#confirm-dialog').isVisible(),true);
   await click('[data-action="confirm-import"]');
   saved=JSON.parse(await page.evaluate(key=>localStorage.getItem(key),STORAGE_KEY));
@@ -117,6 +120,7 @@ try{
   assert.equal(JSON.parse(await page.evaluate(key=>localStorage.getItem(key),STORAGE_KEY)).records['w1-1'].reflection,'旧記録');
   await page.locator('#unlock-all').check();
   await route('songs');
+  await click('[data-song-browse="levels"]');
   await click('[data-song-level="1"]');
   await click('[data-song="curriculum-01"]');
   assert.equal(await page.locator('[data-rate-song]').count(),0);
